@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %} Register {% endblock %}
+
+{% block body %}
+<div class="container form-container mx-auto">
+   <form action="{{ url_for('register') }}" method="post">
+      <div class="form-row">
+         <div class="col-xs">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="input_username" name="username" placeholder="Username" required autofocus>
+         </div>
+      </div>
+      <div class="form-row">
+         <div class="col-xs">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="input_password" name="password" placeholder="Password" required>
+         </div>
+      </div>
+      <div class="form-row">
+         <div class="col-xs">
+            <label for="password">Confirm Password</label>
+            <input type="password" class="form-control" id="input_confirm_password" name="confirm-password" placeholder="Enter password again" required>
+         </div>
+      </div>
+      <div class="form-row">
+         <div class="mx-auto">
+            <input type="submit" class="btn btn-submit" value="Register">
+         </div>
+      </div>
+      <div class="form-row">
+         <div class="mx-auto">
+            <small class="text-muted">
+               Already have an account? <a href="{{url_for('login')}}">Login Here</a>
+            </small>
+         </div>
+      </div>
+   </form>
+ </div>
+{% endblock %}

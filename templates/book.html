@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block title %} Book: {{book["title"]}} {% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="card full-book-card">
+            <div class="card-body">
+                <h1>{{book["title"]}}</h1>
+                <hr>
+                <h3 class="text-muted">By {{book["author"]}}</h3>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="font-weight-bold">ISBN</td>
+                            <td>{{book["isbn"]}}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Published</td>
+                            <td>{{book["year"]}}</td>
+                        </tr>
+                        <tr title="From goodreads">
+                            <td class="font-weight-bold">Reviews</td>
+                            <td>{{data["reviews_count"]}}</td>
+                        </tr>
+                        <tr title="From goodreads">
+                            <td class="font-weight-bold">Ratings</td>
+                            <td>{{data["ratings_count"]}}</td>
+                        </tr>
+                        <tr title="From goodreads">
+                            <td class="font-weight-bold">Average rating</td>
+                            <td>{{data["average_rating"]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form action="{{ url_for('book', isbn=book['isbn']) }}" method="post">
+
+                    <h5>Your Rate and Review:</h5>
+                    <hr>
+                    <div class="star-rating" id="editableRating">
+                        <input type="radio" id="5" name="rating" value="5" required>
+                        <label for="5" title="very good"><span class="fas fa-star"></span></label>
+
+                        <input type="radio" id="4" name="rating" value="4" required>
+                        <label for="4" title="good"><span class="fas fa-star"></span></label>
+
+                        <input type="radio" id="3" name="rating" value="3" required>
+                        <label for="3" title="okay"><span class="fas fa-star"></span></label>
+
+                        <input type="radio" id="2" name="rating" value="2" required>
+                        <label for="2" title="poor"><span class="fas fa-star"></span></label>
+
+                        <input type="radio" id="1" name="rating" value="1" required>
+                        <label for="1" title="very poor" ><span class="fas fa-star"></span></label>
+                    </div>
+
+                    <!-- Read only rating -->
+                    <div class="star-rating" id="readOnlyRating" style="display: none;">
+                        <span class="fas fa-star" id="_5"></span>
+                        <span class="fas fa-star" id="_4"></span>
+                        <span class="fas fa-star" id="_3"></span>
+                        <span class="fas fa-star" id="_2"></span>
+                        <span class="fas fa-star" id="_1"></span>
+                    </div>
+
+                    <textarea id="reviewTextArea" class="form-control" placeholder="Write a review..." name="review" required></textarea>
+
+                    <input type="submit" id="form_submit_btn" class="btn btn-submit" value="Add review">
+                    <input type="button" id="form_edit_btn" class="btn btn-submit" value="Edit" style="display: none;" onclick="edit()">
+                </form>
+
+                {% if rows %}
+                    <h5 class="reviews-heading">Ratings and reviews by other users</h5>
+                    <hr>
+                    {% for row in rows %}
+                        {% if row["username"] == this_user %}
+                            <script>
+                                document.getElementById("form_submit_btn").style.display = "none";
+                                document.getElementById("form_edit_btn").style.display = "block";
+
+                                document.getElementById("{{row['rating']}}").checked = true;
+                                document.getElementById("editableRating").style.display = "none";
+                                document.getElementById("readOnlyRating").style.display = "block";
+                                document.getElementById("_{{row['rating']}}").classList.add("checked");
+
+                                document.getElementById("reviewTextArea").innerHTML = "{{row['review']}}";
+                                document.getElementById("reviewTextArea").readOnly = true;
+                            </script>
+                        {% else %}
+                            <div class="card user-reviews">
+                                <div class="card-header">
+                                    {{row["username"]}}
+                                </div>
+                                <div class="card-body">
+                                    <div class="star-rating other-user-ratings">
+                                        {% for rating in [5, 4, 3, 2, 1] %}
+                                            {% if rating == row["rating"] %}
+                                                <span class="fas fa-star checked"></span>
+                                            {% else %}
+                                                <span class="fas fa-star"></span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <p class="card-text">{{row["review"]}}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+
+    <script>
+        function edit() {
+            document.getElementById("reviewTextArea").readOnly = false;
+
+            document.getElementById("form_submit_btn").style.display = "block";
+            document.getElementById("form_edit_btn").style.display = "none";
+            document.getElementById("form_submit_btn").value = "Update";
+
+            document.getElementById("editableRating").style.display = "block";
+            document.getElementById("readOnlyRating").style.display = "none";
+        }
+    </script>
+
+{% endblock %}

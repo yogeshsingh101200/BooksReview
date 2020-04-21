@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %} Error {% endblock %}
+
+{% block body %}
+<div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+        <h4 class="alert-heading">Error!</h4>
+        <p>
+            {{message}}
+        </p>
+        {% if detailed_message %}
+        <hr>
+        <p class="mb-0">
+            {{detailed_message}}
+        </p>
+        {% endif %}
+</div>
+{% endblock %}

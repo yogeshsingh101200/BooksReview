@@ -1,0 +1,132 @@
+.navbar {
+    background-color: tan;
+    color: white;
+}
+
+.primary-brand {
+    font-size: xx-large;
+    color: rgb(63, 47, 26);
+}
+
+.secondary-brand {
+    font-size: xx-large;
+    color: rgb(129, 97, 56);
+}
+
+.custom-nav-link:link, .custom-nav-link:visited, .custom-nav-link:hover, .custom-nav-link:active {
+    text-decoration: none;
+    padding: 15px;
+    color: white;
+    font-size: larger;
+}
+
+.custom-nav-link:hover {
+    color: rgb(63, 47, 26);
+}
+
+.form-container {
+    width: max-content;
+    margin: 20px;
+    padding: 10px;
+}
+
+.form-row {
+    margin: 10px;
+}
+
+.btn-submit, .btn-submit:active, .btn-submit:hover, .btn-submit:focus {
+    margin: 10px 0 10px 0;
+    color: white;
+    background-color: tan;
+    border-color: tan;
+    box-shadow: 0px 0px;
+}
+
+.btn-submit:hover {
+    background-color: rgb(129, 97, 56);
+    font-weight: bold;
+}
+
+.btn-submit:active, .btn-submit:focus {
+    box-shadow: 0 0 0 3px rgba(129, 97, 56, .25);
+}
+
+.btn-submit-search, .btn-submit-search:active, .btn-submit-search:hover, .btn-submit-search:focus {
+    margin: 0px;
+}
+
+.search-lens {
+    height: 20px;
+}
+
+/* For smartphones */
+.form-on-non-mobile {
+    display: none;
+}
+
+/*
+    Rest of devices
+*/
+
+@media (min-width: 768px) {
+
+    .form-on-non-mobile {
+        display: block;
+        margin-top: 15px;
+    }
+
+    .form-on-mobile {
+        display: none;
+    }
+
+}
+
+.book-card {
+    margin: 10px;
+}
+
+.full-book-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* star rating system */
+.star-rating {
+    direction: rtl;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: orange;
+}
+
+.checked,
+.checked ~ .fa-star {
+    color: orange;
+}
+
+.other-user-ratings {
+    margin-top: auto;
+}
+
+/* end of star rating system */
+
+.reviews-heading {
+    margin-top: 20px;
+}
+
+.user-reviews {
+    margin-top: 15px;
+}
+
+textarea:read-only:focus {
+    box-shadow: 0px 0px;
+    border-color: #ced4da;
+}
