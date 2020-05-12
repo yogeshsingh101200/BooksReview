@@ -58,7 +58,7 @@ def index():
         books = DB.execute("SELECT * FROM books WHERE author ILIKE :search_for",
                            {"search_for": search_for}).fetchall()
 
-    return render_template("index.html", books=books)
+    return render_template("index.html", books=books, post_method=True)
 
 @APP.route("/register", methods=["GET", "POST"])
 def register():

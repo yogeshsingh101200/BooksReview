@@ -51,22 +51,27 @@
                 </div>
             </form>
     </div>
-
-    {% if books %}
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-3">
-                {% for book in books %}
-                    <div class="col">
-                        <div class="card book-card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{book["title"]}}</h5>
-                                <p class="card-text" style="text-align: right;">By {{book["author"]}}</p>
-                                <a href="{{ url_for('book', isbn=book['isbn']) }}" class="btn btn-submit">See more</a>
+    {% if post_method %}
+        {% if books %}
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-3">
+                    {% for book in books %}
+                        <div class="col">
+                            <div class="card book-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{book["title"]}}</h5>
+                                    <p class="card-text" style="text-align: right;">By {{book["author"]}}</p>
+                                    <a href="{{ url_for('book', isbn=book['isbn']) }}" class="btn btn-submit">See more</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="container">
+                <p class="noresult">No results found!</p>
+            </div>
+        {% endif %}
     {% endif %}
 {% endblock %}
