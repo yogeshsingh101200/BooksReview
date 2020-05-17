@@ -68,8 +68,8 @@
 
                     <input type="submit" id="form_submit_btn" class="btn btn-submit" value="Add review">
                     <input type="button" id="form_edit_btn" class="btn btn-submit" value="Edit" style="display: none;" onclick="edit()">
+                    <a id="del_btn" href="{{ url_for('delete_comment', isbn=book['isbn'])}}" class="btn btn-danger" style="display: none;">Delete</a>
                 </form>
-
                 {% if rows %}
                     <h5 class="reviews-heading">Ratings and reviews by other users</h5>
                     <hr>
@@ -77,7 +77,8 @@
                         {% if row["username"] == this_user %}
                             <script>
                                 document.getElementById("form_submit_btn").style.display = "none";
-                                document.getElementById("form_edit_btn").style.display = "block";
+                                document.getElementById("form_edit_btn").style.display = "inline-block";
+                                document.getElementById("del_btn").style.display = "inline-block";
 
                                 document.getElementById("{{row['rating']}}").checked = true;
                                 document.getElementById("editableRating").style.display = "none";
@@ -118,7 +119,7 @@
         function edit() {
             document.getElementById("reviewTextArea").readOnly = false;
 
-            document.getElementById("form_submit_btn").style.display = "block";
+            document.getElementById("form_submit_btn").style.display = "inline-block";
             document.getElementById("form_edit_btn").style.display = "none";
             document.getElementById("form_submit_btn").value = "Update";
 
