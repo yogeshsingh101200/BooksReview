@@ -44,7 +44,6 @@
 
 .btn-submit:hover {
     background-color: rgb(129, 97, 56);
-    font-weight: bold;
 }
 
 .btn-submit:active, .btn-submit:focus {
