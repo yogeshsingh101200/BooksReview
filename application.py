@@ -40,7 +40,7 @@ def index():
     """ Home page: let you search for books """
 
     if request.method == "GET":
-        return render_template("index.html", books=None)
+        return render_template("index.html", post_method=False)
 
     # If method is post
     search_by = request.form.get("search_by")
