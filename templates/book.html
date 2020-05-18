@@ -69,6 +69,7 @@
                     <input type="submit" id="form_submit_btn" class="btn btn-submit" value="Add review">
                     <input type="button" id="form_edit_btn" class="btn btn-submit" value="Edit" style="display: none;" onclick="edit()">
                     <a id="del_btn" href="{{ url_for('delete_comment', isbn=book['isbn'])}}" class="btn btn-danger" style="display: none;">Delete</a>
+                    <input type="button" id="undo_btn" class="btn btn-success" value="Undo" style="display: none;" onclick="undo()">
                 </form>
                 <h5 class="reviews-heading">Ratings and reviews by other users</h5>
                 <hr>
@@ -88,6 +89,7 @@
                             document.getElementById("_{{row['rating']}}").classList.add("checked");
 
                             document.getElementById("reviewTextArea").innerHTML = "{{row['review']}}";
+                            user_review = document.getElementById("reviewTextArea").value;
                             document.getElementById("reviewTextArea").readOnly = true;
                         </script>
                     {% else %}
@@ -124,11 +126,25 @@
             document.getElementById("reviewTextArea").readOnly = false;
 
             document.getElementById("form_submit_btn").style.display = "inline-block";
+            document.getElementById("undo_btn").style.display = "inline-block";
+            document.getElementById("del_btn").style.display = "none";
             document.getElementById("form_edit_btn").style.display = "none";
             document.getElementById("form_submit_btn").value = "Update";
 
             document.getElementById("editableRating").style.display = "block";
             document.getElementById("readOnlyRating").style.display = "none";
+        }
+
+        function undo() {
+            document.getElementById("reviewTextArea").readOnly = true;
+            if (typeof user_review !== 'undefined') document.getElementById("reviewTextArea").value = user_review;
+            document.getElementById("form_submit_btn").style.display = "none";
+            document.getElementById("undo_btn").style.display = "none";
+            document.getElementById("del_btn").style.display = "inline-block";
+            document.getElementById("form_edit_btn").style.display = "inline-block";
+
+            document.getElementById("editableRating").style.display = "none";
+            document.getElementById("readOnlyRating").style.display = "block";
         }
     </script>
 
