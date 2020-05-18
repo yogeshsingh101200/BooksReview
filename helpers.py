@@ -77,3 +77,10 @@ def is_invalid(password):
         return False
 
     return True
+
+def valid(review):
+    """ Checks if user review is a string of blank spaces """
+    for char in review:
+        if char.isalnum():
+            return True
+    return False

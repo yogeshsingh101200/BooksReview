@@ -5,30 +5,9 @@
 {% block body %}
     <div class="container">
         <div class="form-on-non-mobile">
-                <form action="{{ url_for('index')}}" method="post">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <select class="custom-select" name="search_by" id="book-search" required>
-                                <option value="" selected disabled>Search by</option>
-                                <option value="isbn">ISBN</option>
-                                <option value="title">Title</option>
-                                <option value="author">Author</option>
-                            </select>
-                        </div>
-                        <input type="search" class="form-control" placeholder="Search books" name="search_for" required autofocus>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-submit btn-submit-search">
-                                <span class="fas fa-search"></span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-        </div>
-    </div>
-    <div class="form-on-mobile">
-            <form action="{{url_for('index')}}" method="post">
-                <div class="form-row">
-                    <div class="col">
+            <form action="{{ url_for('index')}}" method="post">
+                <div class="input-group">
+                    <div class="input-group-prepend">
                         <select class="custom-select" name="search_by" id="book-search" required>
                             <option value="" selected disabled>Search by</option>
                             <option value="isbn">ISBN</option>
@@ -36,20 +15,41 @@
                             <option value="author">Author</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="col">
-                        <div class="input-group">
-                            <input type="search" class="form-control" placeholder="Search books" name="search_for" required autofocus>
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-submit btn-submit-search">
-                                    <span class="fas fa-search"></span>
-                                </button>
-                            </div>
-                        </div>
+                    <input type="search" class="form-control" placeholder="Search books" name="search_for" required autofocus>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-submit btn-submit-search">
+                            <span class="fas fa-search"></span>
+                        </button>
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="form-on-mobile">
+        <form action="{{url_for('index')}}" method="post">
+            <div class="form-row">
+                <div class="col">
+                    <select class="custom-select" name="search_by" id="book-search" required>
+                        <option value="" selected disabled>Search by</option>
+                        <option value="isbn">ISBN</option>
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="Search books" name="search_for" required autofocus>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-submit btn-submit-search">
+                                <span class="fas fa-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     {% if post_method %}
         {% if books %}

@@ -68,46 +68,53 @@
 
                     <input type="submit" id="form_submit_btn" class="btn btn-submit" value="Add review">
                     <input type="button" id="form_edit_btn" class="btn btn-submit" value="Edit" style="display: none;" onclick="edit()">
+                    <a id="del_btn" href="{{ url_for('delete_comment', isbn=book['isbn'])}}" class="btn btn-danger" style="display: none;">Delete</a>
+                    <input type="button" id="undo_btn" class="btn btn-success" value="Undo" style="display: none;" onclick="undo()">
                 </form>
+                <h5 class="reviews-heading">Ratings and reviews by other users</h5>
+                <hr>
+                <div id="other_reviews" class="container">
+                    <p class="noresult"> No reviews! </p>
+                </div>
+                {% for row in rows %}
+                    {% if row["username"] == this_user %}
+                        <script>
+                            document.getElementById("form_submit_btn").style.display = "none";
+                            document.getElementById("form_edit_btn").style.display = "inline-block";
+                            document.getElementById("del_btn").style.display = "inline-block";
 
-                {% if rows %}
-                    <h5 class="reviews-heading">Ratings and reviews by other users</h5>
-                    <hr>
-                    {% for row in rows %}
-                        {% if row["username"] == this_user %}
-                            <script>
-                                document.getElementById("form_submit_btn").style.display = "none";
-                                document.getElementById("form_edit_btn").style.display = "block";
+                            document.getElementById("{{row['rating']}}").checked = true;
+                            document.getElementById("editableRating").style.display = "none";
+                            document.getElementById("readOnlyRating").style.display = "block";
+                            document.getElementById("_{{row['rating']}}").classList.add("checked");
 
-                                document.getElementById("{{row['rating']}}").checked = true;
-                                document.getElementById("editableRating").style.display = "none";
-                                document.getElementById("readOnlyRating").style.display = "block";
-                                document.getElementById("_{{row['rating']}}").classList.add("checked");
-
-                                document.getElementById("reviewTextArea").innerHTML = "{{row['review']}}";
-                                document.getElementById("reviewTextArea").readOnly = true;
-                            </script>
-                        {% else %}
-                            <div class="card user-reviews">
-                                <div class="card-header">
-                                    {{row["username"]}}
-                                </div>
-                                <div class="card-body">
-                                    <div class="star-rating other-user-ratings">
-                                        {% for rating in [5, 4, 3, 2, 1] %}
-                                            {% if rating == row["rating"] %}
-                                                <span class="fas fa-star checked"></span>
-                                            {% else %}
-                                                <span class="fas fa-star"></span>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                    <p class="card-text">{{row["review"]}}</p>
-                                </div>
+                            document.getElementById("reviewTextArea").innerHTML = "{{row['review']}}";
+                            user_review = document.getElementById("reviewTextArea").value;
+                            document.getElementById("reviewTextArea").readOnly = true;
+                        </script>
+                    {% else %}
+                        <script>
+                            document.getElementById("other_reviews").style.display = "none";
+                        </script>
+                        <div class="card user-reviews">
+                            <div class="card-header">
+                                {{row["username"]}}
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
+                            <div class="card-body">
+                                <div class="star-rating other-user-ratings">
+                                    {% for rating in [5, 4, 3, 2, 1] %}
+                                        {% if rating == row["rating"] %}
+                                            <span class="fas fa-star checked"></span>
+                                        {% else %}
+                                            <span class="fas fa-star"></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <p class="card-text">{{row["review"]}}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -118,12 +125,26 @@
         function edit() {
             document.getElementById("reviewTextArea").readOnly = false;
 
-            document.getElementById("form_submit_btn").style.display = "block";
+            document.getElementById("form_submit_btn").style.display = "inline-block";
+            document.getElementById("undo_btn").style.display = "inline-block";
+            document.getElementById("del_btn").style.display = "none";
             document.getElementById("form_edit_btn").style.display = "none";
             document.getElementById("form_submit_btn").value = "Update";
 
             document.getElementById("editableRating").style.display = "block";
             document.getElementById("readOnlyRating").style.display = "none";
+        }
+
+        function undo() {
+            document.getElementById("reviewTextArea").readOnly = true;
+            if (typeof user_review !== 'undefined') document.getElementById("reviewTextArea").value = user_review;
+            document.getElementById("form_submit_btn").style.display = "none";
+            document.getElementById("undo_btn").style.display = "none";
+            document.getElementById("del_btn").style.display = "inline-block";
+            document.getElementById("form_edit_btn").style.display = "inline-block";
+
+            document.getElementById("editableRating").style.display = "none";
+            document.getElementById("readOnlyRating").style.display = "block";
         }
     </script>
 

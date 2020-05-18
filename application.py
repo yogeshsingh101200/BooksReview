@@ -4,12 +4,12 @@
 
 import os
 
-from flask import Flask, session, render_template, request, redirect, jsonify
+from flask import Flask, session, render_template, request, redirect, jsonify, url_for
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from helpers import login_required, goodreads, hash_password, is_invalid
+from helpers import login_required, goodreads, hash_password, is_invalid, valid
 
 APP = Flask(__name__)
 
@@ -40,7 +40,7 @@ def index():
     """ Home page: let you search for books """
 
     if request.method == "GET":
-        return render_template("index.html", books=None)
+        return render_template("index.html", post_method=False)
 
     # If method is post
     search_by = request.form.get("search_by")
@@ -142,6 +142,10 @@ def book(isbn):
         review = request.form.get("review")
         rating = int(request.form.get("rating"))
 
+        if review is None or not valid(review):
+            message = "Please enter a valid review!"
+            return render_template("error.html", message=message)
+
         row = DB.execute("SELECT review FROM reviews WHERE username=:username AND isbn=:isbn",
                          {"username": session["username"], "isbn": isbn}).fetchone()
 
@@ -176,6 +180,16 @@ def book(isbn):
 
     return render_template("book.html", data=data, book=this_book,
                            rows=rows, this_user=session["username"])
+
+@APP.route("/delete_comment/<string:isbn>")
+@login_required
+def delete_comment(isbn):
+    """ Deletes user review """
+
+    DB.execute("DELETE FROM reviews WHERE isbn=:isbn AND username=:username",
+               {"isbn": isbn, "username": session["username"]})
+    DB.commit()
+    return redirect(url_for('book', isbn=isbn))
 
 @APP.route("/api/<string:isbn>")
 def api_book(isbn):
