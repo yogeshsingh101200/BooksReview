@@ -20,18 +20,20 @@
                             <td class="font-weight-bold">Published</td>
                             <td>{{book["year"]}}</td>
                         </tr>
-                        <tr title="From goodreads">
-                            <td class="font-weight-bold">Reviews</td>
-                            <td>{{data["reviews_count"]}}</td>
-                        </tr>
-                        <tr title="From goodreads">
-                            <td class="font-weight-bold">Ratings</td>
-                            <td>{{data["ratings_count"]}}</td>
-                        </tr>
-                        <tr title="From goodreads">
-                            <td class="font-weight-bold">Average rating</td>
-                            <td>{{data["average_rating"]}}</td>
-                        </tr>
+                        {% if data %}
+                            <tr title="From goodreads">
+                                <td class="font-weight-bold">Reviews</td>
+                                <td>{{data["reviews_count"]}}</td>
+                            </tr>
+                            <tr title="From goodreads">
+                                <td class="font-weight-bold">Ratings</td>
+                                <td>{{data["ratings_count"]}}</td>
+                            </tr>
+                            <tr title="From goodreads">
+                                <td class="font-weight-bold">Average rating</td>
+                                <td>{{data["average_rating"]}}</td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
                 <form action="{{ url_for('book', isbn=book['isbn']) }}" method="post">
